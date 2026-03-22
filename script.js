@@ -5,10 +5,16 @@ const hex = document.getElementById('hex');
 convert.addEventListener('click', () => hex.value = rgbToHex(r.value, g.value, b.value))
 
 function rgbToHex(r, g, b) {
-    return "#" + [r, g, b]
-        .map(x => {
-            const hex = x.toString(16);
-            return hex.length === 1 ? "0" + hex : hex;
-        })
-        .join("");
+    // Clamp values between 0 and 255
+    r = Math.max(0, Math.min(255, r));
+    g = Math.max(0, Math.min(255, g));
+    b = Math.max(0, Math.min(255, b));
+
+    // Convert each to 2-digit hex and combine
+    const hex = "#" +
+        r.toString(16).padStart(2, '0') +
+        g.toString(16).padStart(2, '0') +
+        b.toString(16).padStart(2, '0');
+
+    return hex.toUpperCase(); // #D43333 format
 }
